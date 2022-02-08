@@ -38,7 +38,7 @@ class Api::HeroesController < ApplicationController
 
     if @hero.save
 
-      render json: @hero, status: :created, location: @hero
+      render json: @hero, status: :created, location: api_hero_url(@hero)
 
     else
 
