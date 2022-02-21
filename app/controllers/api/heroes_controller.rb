@@ -8,7 +8,7 @@ class Api::HeroesController < ApplicationController
 
   def index
 
-    @heroes = Hero.all.sorted_by_name
+    @heroes = Hero.search(params[:term]).sorted_by_name
 
 
 
