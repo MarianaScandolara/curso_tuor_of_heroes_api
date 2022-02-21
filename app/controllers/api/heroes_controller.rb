@@ -1,8 +1,9 @@
 class Api::HeroesController < ApplicationController
 
+  include Authenticable
+  before_action :authenticate_with_token, except: %i[show index]
+
   before_action :set_hero, only: %i[show update destroy]
-
-
 
   # GET /heroes
 
