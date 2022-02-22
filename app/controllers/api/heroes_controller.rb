@@ -1,7 +1,7 @@
 class Api::HeroesController < ApplicationController
 
   include Authenticable
-  before_action :authenticate_with_token, except: %i[show index]
+  before_action :authenticate_with_token
 
   before_action :set_hero, only: %i[show update destroy]
 
@@ -9,7 +9,7 @@ class Api::HeroesController < ApplicationController
 
   def index
 
-    @heroes = Hero.search(params[:term]).sorted_by_name
+    @heroes = Hero.by_token(@token).search(params[:term]).sorted_by_name
 
 
 
@@ -33,7 +33,7 @@ class Api::HeroesController < ApplicationController
 
   def create
 
-    @hero = Hero.new(hero_params)
+    @hero = Hero.new(hero_params.to_h.merge!({ token: @token}))
 
 
 
@@ -86,7 +86,7 @@ class Api::HeroesController < ApplicationController
 
   def set_hero
 
-    @hero = Hero.find(params[:id])
+    @hero = Hero.by_token(@token).find(params[:id])
 
   end
 

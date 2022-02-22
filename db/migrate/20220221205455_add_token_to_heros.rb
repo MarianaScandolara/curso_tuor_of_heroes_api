@@ -1,6 +1,6 @@
 class AddTokenToHeros < ActiveRecord::Migration[6.1]
   def change
-    add_column :heros, :token, :string, null: false
-    add_index :heros, :token
+    add_column :heroes, :token, :string, null: false
+    add_index :heroes, :token
   end
 end
