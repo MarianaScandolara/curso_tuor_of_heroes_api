@@ -2,33 +2,36 @@ require 'rails_helper'
 
 #rubocop: disable Metrics/BlockLength
 RSpec.describe "/api/heroes", type: :request do
-  let(:name) {'Thor'}
-  let(:token) {'1234567890'}
 
-  let(:valid_attributes) {
-    {name: name, token: token}
-  }
+  let(:valid_attributes) { attributes_for :hero }
 
-  let(:invalid_attributes) {
-    {name: nil, token: token}
-  }
+  let(:invalid_attributes) { attributes_for :invalid_hero }
 
   let(:valid_headers) {
-    {Authorization: token}
+    {Authorization: valid_attributes[:token]}
+  }
+  let(:invalid_headers) {
+    {Authorization: '123456789'}
   }
 
   describe "GET /index" do
     context 'with headers' do
       it "renders a successful response" do
-        Hero.create! valid_attributes
+        hero = Hero.create! valid_attributes
         get api_heroes_url, headers: valid_headers, as: :json
         expect(response).to be_successful
+        expect(json_response[0][:name]).to eq(hero.name)
       end
     end
     context 'without headers' do
       it "renders a JSON response whit an anauthorized status" do
-        Hero.create! valid_attributes
         get api_heroes_url, as: :json
+        expect(response).to have_http_status(:unauthorized) 
+      end
+    end
+    context 'with invalid headers' do
+      it "renders a JSON response whit an anauthorized status" do
+        get api_heroes_url, headers: invalid_headers, as: :json
         expect(response).to have_http_status(:unauthorized) 
       end
     end
@@ -80,17 +83,14 @@ RSpec.describe "/api/heroes", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_name) {'Hulk'}
-      let(:new_attributes) {
-        {name: new_name}
-      }
+      let(:new_attributes) {attributes_for :hero}
 
       it "updates the requested hero" do
         hero = Hero.create! valid_attributes
         patch api_hero_url(hero),
               params: { hero: new_attributes }, headers: valid_headers, as: :json
         hero.reload
-        expect(hero.name).to eq(new_name)
+        expect(hero.name).to eq(new_attributes[:name])
       end
 
       it "renders a JSON response with the hero" do
