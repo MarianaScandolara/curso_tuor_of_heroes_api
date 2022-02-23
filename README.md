@@ -49,6 +49,17 @@ rails s
 
 The backend is available at `http://localhost:3000`.
 
+## Testes
+[![CircleCI](https://circleci.com/gh/MarianaScandolara/curso_tuor_of_heroes_api.svg?style=svg)](https://circleci.com/gh/MarianaScandolara/curso_tuor_of_heroes_api)
+
+
+To run the tests:
+
+```bash
+rspec
+```
+
+
 
 ## Using the HEROES API
 
