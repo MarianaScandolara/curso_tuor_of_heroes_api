@@ -19,6 +19,8 @@ end
 
 group :development do
   gem "faker", "~> 2.19"
+  gem "spring"
+  gem "spring-commands-rspec", "~> 1.0"
 end
 
 group :test do
@@ -26,11 +28,10 @@ group :test do
   gem "simplecov",  "~> 0.21.2", require:false
 end
 
-
-
 group :production do
   gem "pg", "~> 1.3"
 end
+
 
 
 
