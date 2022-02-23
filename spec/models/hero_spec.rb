@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Hero, type: :model do
-  let ( :name ) {'Thor'}
-  let ( :token ) {'1234567890'}
+  let( :name ) {'Thor'}
+  let( :token ) {'1234567890'}
 
   subject { Hero.new(name:name, token: token) } 
 
